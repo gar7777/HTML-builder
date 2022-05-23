@@ -1,9 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-let allData = '';
-
-const takeTexts = async (pathToDir) => {
+const createBundle = (pathToDir) => {
+  fs.access(path.join(__dirname, 'project-dist', 'bundle.css'), (err) => {
+    if (err) return;
+    fs.unlink(path.join(__dirname, 'project-dist', 'bundle.css'), (err) => {
+      if (err) throw err;
+    })
+  })
+  
   fs.readdir(pathToDir, { withFileTypes: true }, (err, files) => {
     if (err) throw err;
     for (let file of files) {
@@ -28,4 +33,4 @@ const appendBundle = (data) => {
   });
 }
 
-takeTexts(path.join(__dirname, 'styles'));
+createBundle(path.join(__dirname, 'styles'));
