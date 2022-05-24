@@ -17,7 +17,9 @@ const handleHTMLFile = async (pathToFile) => {
     for (let file of componentFiles) {
       const text = await fs.promises.readFile(path.join(__dirname, 'components', file), 'utf-8');
       const fileName = path.parse(path.join(__dirname, 'components', file)).name;
-      data = data.replace(`\{\{${fileName}\}\}`, text);
+      if (path.parse(path.join(__dirname, 'components', file)).ext === '.html') {
+        data = data.replace(`\{\{${fileName}\}\}`, text);
+      }
     }
     fs.mkdir(path.join(__dirname, 'project-dist'), (err) => {
       if (err) return;
